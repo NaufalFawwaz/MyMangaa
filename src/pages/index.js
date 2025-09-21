@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import Layout from '@/components/layouts/Layout';
 import Header from '@/components/layouts/Header';
 import Card from '@/components/ui/Card';
@@ -99,6 +100,15 @@ export default function Home({ initialManga = [], initialTotalPages = 1, initial
   if (!isMounted) {
     return (
       <Layout>
+        <Head>
+          <title>MyMangaa - Fetch from MangaDex</title>
+          <meta name="description" content="Temukan koleksi manga terlengkap dengan fitur pencarian, favorit, dan dark mode." />
+          <meta name="keywords" content="manga, manhwa, manhua, baca manga, manga online" />
+          <meta property="og:title" content="MyMangaa - Koleksi Manga Terlengkap" />
+          <meta property="og:description" content="Temukan koleksi manga terlengkap dengan fitur pencarian, favorit, dan dark mode." />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
         <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
         </div>
@@ -106,8 +116,28 @@ export default function Home({ initialManga = [], initialTotalPages = 1, initial
     );
   }
 
+  const pageTitle = searchQuery 
+    ? `Hasil Pencarian: "${searchQuery}" - MyMangaa`
+    : 'MyMangaa - Fetch from MangaDex';
+  
+  const pageDescription = searchQuery
+    ? `Hasil pencarian manga untuk: "${searchQuery}"`
+    : 'Temukan koleksi manga terlengkap dengan fitur pencarian, favorit, dan dark mode.';
+
   return (
     <Layout>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content="manga, manhwa, manhua, baca manga, manga online, pencarian manga" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+      </Head>
+
       <Header
         searchQuery={searchQuery}
         onSearch={handleSearch}
