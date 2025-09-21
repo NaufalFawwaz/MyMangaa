@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Background colors */
+  --color-bg-primary: #ebebed; /* Light mode background */
+  --color-bg-secondary: #ffffff; /* Card background light mode */
+  --color-bg-card: #ffffff; /* Card background */
+  
+  /* Text colors */
+  --color-text-primary: #111827; /* Gray-900 for in light mode */
+  --color-text-secondary: #4b5563; /* Gray-700 for secondary text */
+  --color-text-muted: #6b7280; /* Gray-500 for muted text */
+  
+  /* Dark mode colors */
+  --color-bg-primary-dark: #161e2e; /* Dark mode background */
+  --color-bg-secondary-dark: #1f2937; /* Secondary background dark mode */
+  --color-bg-card-dark: #2d3748; /* Card background dark mode */
+  --color-text-primary-dark: #f3f4f6; /* White text dark mode */
+  --color-text-secondary-dark: #d1d5db; /* Light gray text dark mode */
+  --color-text-muted-dark: #9ca3af; /* Muted text dark mode */
+  
+  /* Accent colors */
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-secondary: #6b7280;
+  --color-accent: #ef4444;
+  
+  /* Status colors */
+  --color-status-ongoing-light: #043d74;
+  --color-status-completed-light: #059669;
+  --color-status-text-light: #ffff;
+  
+  --color-status-ongoing-dark: #32a7ca;
+  --color-status-completed-dark: #34d399;
+  --color-status-text-dark: #f3f4f6;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* Base styles */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-primary: var(--color-bg-primary);
+    --bg-secondary: var(--color-bg-secondary);
+    --bg-card: var(--color-bg-card);
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted: var(--color-text-muted);
+    --status-ongoing: var(--color-status-ongoing-light);
+    --status-completed: var(--color-status-completed-light);
+    --status-text: var(--color-status-text-light);
+  }
+  
+  .dark {
+    --bg-primary: var(--color-bg-primary-dark);
+    --bg-secondary: var(--color-bg-secondary-dark);
+    --bg-card: var(--color-bg-card-dark);
+    --text-primary: var(--color-text-primary-dark);
+    --text-secondary: var(--color-text-secondary-dark);
+    --text-muted: var(--color-text-muted-dark);
+    --status-ongoing: var(--color-status-ongoing-dark);
+    --status-completed: var(--color-status-completed-dark);
+    --status-text: var(--color-status-text-dark);
+  }
+  
+  html {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)];
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply min-h-screen font-sans antialiased;
+  }
+
+}
+
+/* Component styles */
+@layer components {
+  /* Custom button variants */
+  .btn-primary {
+    @apply bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-medium rounded-lg px-4 py-2;
+  }
+  
+  .btn-outline {
+    @apply border border-[var(--color-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-lg px-4 py-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-[var(--bg-secondary)] hover:bg-[var(--bg-card)] text-[var(--text-primary)] font-medium rounded-lg px-4 py-2;
+  }
+  
+  /* Card component */
+  .card {
+    @apply bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--bg-secondary)] overflow-hidden;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-300;
+  }
+  
+  /* Text styles */
+  .text-primary {
+    @apply text-[var(--text-primary)];
+  }
+  
+  .text-secondary {
+    @apply text-[var(--text-secondary)];
+  }
+  
+  .text-muted {
+    @apply text-[var(--text-muted)];
+  }
+  
+  /* Badge styles */
+  .badge-status {
+    @apply text-[var(--status-text)] text-xs font-medium px-2 py-0.5 rounded-md;
+  }
+  
+  .badge-ongoing {
+    @apply bg-[var(--status-ongoing)] text-[var(--status-text)] text-xs font-medium px-2 py-0.5 rounded-md;
+  }
+  
+  .badge-completed {
+    @apply bg-[var(--status-completed)] text-[var(--status-text)] text-xs font-medium px-2 py-0.5 rounded-md;
+  }
+  
+  .badge-year {
+    @apply bg-[var(--bg-secondary)] text-[var(--text-secondary)] text-xs font-medium px-2 py-0.5 rounded-md;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Utilities */
+@layer utilities {
+  
+  .glass {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50;
+  }
+  
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-md;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-gray-600;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
 }
